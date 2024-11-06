@@ -1,0 +1,763 @@
+'use strict';
+
+/**
+ * UTILS
+ */
+const loop = (iterationCount, callback, options = { indexBegin: 1 }) => {
+  for (let i = options.indexBegin; i <= iterationCount; i += 1) {
+    callback(i);
+  }
+};
+
+const subscribed = {
+  /**
+   * CORRUPTED DATA
+   */
+  DATA_OK: true,
+  RQLOAD: true,
+
+  /**
+   * INITIAL WIZARD
+   */
+  PRVNI_NASTAVENI: true,
+  REG_ZAKAZNIK: true,
+  CHLAZ: true,
+  C102_V: true,
+  C330: true,
+  BAZ_VI: true,
+  C201_V1: true,
+  'C196[1]': true,
+  ADRESA1_29: true,
+  'C308[1]': true,
+  SETADR: true,
+  'EKV[1]': true,
+  'EKV[2]': true,
+  'EKV[3]': true,
+  'EKV[4]': true,
+  C168: true,
+  C169: true,
+  ADRESA: true,
+  HWADRESA: true,
+  JMENO_ZAKAZNIK: true,
+  EMAIL_CUSTOMER: true,
+  'EMAIL[1]': true,
+  'EMAIL[2]': true,
+  'EMAIL[3]': true,
+  RQSAVE_M: true,
+  INFO_ZALOHA: true,
+  ODESLI: true,
+  EMAIL_HOTOVO: true,
+
+  SOBESTAC1: true,
+  FVE_EFEKT: true,
+
+  FVE_OUT_TD: true,
+  FVE_OUT_YR: true,
+  FVE_OUT_AL: true,
+  SPOTREBA_DOMACNOST_CELK: true,
+  SPOTREBA_DOMACNOST_CELK_DS: true,
+  FVE_IN_REAL_CELK: true,
+  // TENGEO OFFICE
+  FVE_JMEN: true,
+  FVE_TYP: true,
+  F_POU: true,
+ // FVE_START_STRING: true,
+  TC_VID: true,
+  //ADRESA1_30: true,
+  //ADRESA1_31: true,
+  // PHOTOVOLTAICS
+  FVE_STR_MODBUS: true,
+  FVE_EK_TUV: true,
+  FVE_JMENEK_TUV: true,
+  // FVE_EK_TUV_PRIM: true,
+  FVE_EK_AN: true,
+  //FVE_EK_ANO: true,
+  FVE_JMENEK_AN: true,
+  //FVE_EK_AN_PRIM: true,
+  C182: true,
+  ADRESA1_15: true,
+  //KLIMATIZACE
+  CLIMA_ON_VSE: true,
+
+  'C_SPOTREBA[1]': true,
+  'C_SPOTREBA[2]': true,
+  'C_SPOTREBA[3]': true,
+  'C_SPOTREBA[4]': true,
+
+  'CLIMA_ON[1]': true,
+  'CLIMA_ON[2]': true,
+  'CLIMA_ON[3]': true,
+  'CLIMA_ON[4]': true,
+
+  'C_VID_SET_SER[1]': true,
+  'C_VID_SET_SER[2]': true,
+  'C_VID_SET_SER[3]': true,
+  'C_VID_SET_SER[4]': true,
+
+  'C_AUTO[1]': true,
+  'C_AUTO[2]': true,
+  'C_AUTO[3]': true,
+  'C_AUTO[4]': true,
+
+  'C_NAZEV[1]': true,
+  'C_NAZEV[2]': true,
+  'C_NAZEV[3]': true,
+  'C_NAZEV[4]': true,
+
+  'C_TEMP[1]': true,
+  'C_TEMP_SET_W[1]': true,
+  'C_TEMP_SET[1]': true,
+  'C_ON[1]': true,
+  'C_MOD[1]': true,
+  'C_KLAP[1]': true,
+  'C_FAN[1]': true,
+
+  'C_TEMP[2]': true,
+  'C_TEMP_SET_W[2]': true,
+  'C_TEMP_SET[2]': true,
+  'C_ON[2]': true,
+  'C_MOD[2]': true,
+  'C_KLAP[2]': true,
+  'C_FAN[2]': true,
+
+  'C_TEMP[3]': true,
+  'C_TEMP_SET_W[3]': true,
+  'C_TEMP_SET[3]': true,
+  'C_ON[3]': true,
+  'C_MOD[3]': true,
+  'C_KLAP[3]': true,
+  'C_FAN[3]': true,
+
+  'C_TEMP[4]': true,
+  'C_TEMP_SET_W[4]': true,
+  'C_TEMP_SET[4]': true,
+  'C_ON[4]': true,
+  'C_MOD[4]': true,
+  'C_KLAP[4]': true,
+  'C_FAN[4]': true,
+
+  /**
+   * --- NAV ---
+   */
+  // TEMPERATURE
+  C200: true,
+
+  /**
+   * --- HEATPUMP ---
+   */
+  C80_ZOB: true,
+  C6_PRUM: true,
+  C100: true,
+  C224: true,
+  C224_A_TUV_C: true,
+  C224_A_AN_C: true,
+  C225: true,
+  C103_TEXT: true,
+  C104_CELK: true,
+  NC_BEH: true,
+  NR_ON: true,
+  NR1: true,
+  NR2: true,
+  C255: true,
+  KRAJ_CR_INT: true,
+  // STATISTICS
+  EL_CELK_TOP1: true,
+  EL_CELK_TUV1: true,
+
+  /**
+   * --- EKVITERM
+   */
+  'TOK_OKR_ZVOL[1]': true,
+  'TOK_OKR_ZVOL[2]': true,
+  'TOK_OKR_ZVOL[3]': true,
+  'C350[1]': true,
+  'C350[2]': true,
+  'C350[3]': true,
+  'C185[1]': true,
+  'C185[2]': true,
+  'C185[3]': true,
+  'C184[1]': true,
+  'C184[2]': true,
+  'C184[3]': true,
+  C200_PRUM: true,
+  EKV_TOP: true,
+  EKV_POPIS: true,
+  MAX_VENK_TEP: true,
+  RESET_LETNI_CAS: true,
+  EKV_CHLAD: true,
+  MAX_VENK_TEP_CHLAD: true,
+  RESET_LETNI_CAS1: true,
+  'EKV_V[1]': true,
+  'EKV_V[2]': true,
+  'EKV_V[3]': true,
+  C250_ADAPT: true,
+  C250: true,
+  C250K: true,
+  //EKV_VISIBILITY: true,
+  C249: true,
+  C167: true,
+  C223: true,
+  C223_Z: true,
+
+  BOOST_AKT: true,
+  OS_BOOST: true,
+  VZT_DOB: true,
+  FVE_BAT: true,
+  VZT_POK: true,
+  VZT_BOOST: true,
+  FVE_ON: true,
+  C110_3: true,
+  BAT_VID: true,
+  TENGEO_II_REV1: true,
+  /**
+   * STATUS VARS
+   */
+  CHYBA_POTVRDIT: true,
+  CHYBA_OBECNE: true,
+  FVE_STATUS: true,
+
+  FVE_STATUS1: true,
+
+  /**
+   * SERVICE
+   */
+  //ERRORSSTRING: true,
+  //LOG_HISTORY: true,
+  SERVIS: true,
+  //PREHODNOT: true,
+  //C80_EK_1: true,
+  //EK_RUN_TIME: true,
+  //CHYBA_OBECNE: true,
+  C183: true,
+  //C110_Z: true,
+  //C109_Z: true,
+ // C117_STC: true,
+  //C175: true,
+  //C175MO: true,
+  //C126: true,
+  C125: true,
+  C108: true,
+  C108_MAX: true,
+  C109_1: true,
+  C110_2: true,
+  //C110_3: true,
+  C111: true,
+  C112: true,
+  C250_MIN: true,
+  C1065_2: true,
+  C116_1: true,
+  //K_VYKON: true,
+  NC_PROC: true,
+  C154: true,
+  //KOM_START: true,
+  //KOM_CAS: true,
+  //KOM_POM: true,
+  //EL_CELK_AKT: true,
+  //EL_CELK_TOP: true,
+  //EL_CELK_CHL: true,
+  //EL_CELK_TUV: true,
+  //VYKON: true,
+  //TEPLO_CELKEM_TOP: true,
+  //TEPLO_CELKEM_CHL: true,
+  //TEPLO_CELKEM_TUV: true,
+  //COP: true,
+  //COP_CELK_TOP: true,
+  //COP_CELK_CHL: true,
+  //COP_CELK_TUV: true,
+  //C1: true,
+  //C2: true,
+  //C3: true,
+  //C5: true,
+  //C12: true,
+  //C13: true,
+  //C14: true,
+  //C15: true,
+  //C16: true,
+  C222: true,
+  //OBEH_1: true,
+  //OBEH_2: true,
+
+  /**
+   * SOLAR
+   */
+  'FVE_GW.SOC_MIN': true,
+  MAX_SOC_AUTO: true,
+  MIN_SOC_AUTO: true,
+  SOC_AUTO: true,
+  FVE_VYKON: true,
+  BAT_OUTPUT: true,
+  //SPOTREBA_DOMACNOST1: true,
+  SPOTREBA_DOMACNOST1_DS: true,
+  SPOTREBA_DOMACNOST1_A: true,
+  C201: true,
+  C204: true,
+  C205: true,
+  C220: true,
+  GW_ON: true,
+  'BAT_TYDEN[1]': true,
+  'BAT_TYDEN[2]': true,
+  'BAT_TYDEN[3]': true,
+  'BAT_TYDEN[4]': true,
+  'BAT_TYDEN[5]': true,
+  'BAT_TYDEN[6]': true,
+  'BAT_TYDEN[7]': true,
+  MIN_SOC: true,
+  MIN_SOC_BEZ_DS: true,
+  BAT_HOD: true,
+  BAT_CH_AC: true,
+
+  FVE_VYKON_V: true,
+  FVE_VYKON_PROC: true,
+  DS: true,
+  //DOMACNOST1: true,
+  EK_FVE_ON: true,
+  FVE_EK_VYK: true,
+  CAR_V: true,
+  CAR_C: true,
+  CAR_OUT: true,
+  CAR_BAT: true,
+  FVE_TC_ODBER: true,
+  FVE_EK_VYK_R: true,
+
+  // UTIL VARS FOR ONBOARDING PROGRESS CALCULATION
+  //PAGE_COUNT: true,
+  //ONBOARDING_PROGRESS: true,
+  
+  // AGREGATOR
+  AGREGACE: true,
+  AGREGUJI: true,
+  'C361_Z[1]': true,
+};
+
+/**
+ * --- WARM WATER ---
+ */
+subscribed.C222 = true;
+subscribed.C102 = true;
+subscribed.TUV_Z = true;
+//subscribed.C251 = true;
+subscribed.C251_KOM = true;
+subscribed.C251_USP = true;
+subscribed.KOMFORT_TUV = true;
+subscribed.CIRK_VID = true;
+subscribed.C229 = true;
+subscribed.CIRK_ZABEZ = true;
+
+loop(3, (index) => {
+  subscribed[`CIRK_TYDEN[${index},1]`] = true;
+  subscribed[`CIRK_TYDEN[${index},2]`] = true;
+  subscribed[`CIRK_TYDEN[${index},3]`] = true;
+  subscribed[`CIRK_TYDEN[${index},4]`] = true;
+  subscribed[`CIRK_TYDEN[${index},5]`] = true;
+  subscribed[`CIRK_TYDEN[${index},6]`] = true;
+  subscribed[`CIRK_TYDEN[${index},7]`] = true;
+  subscribed[`CIRK_ON_SET[${index},1]`] = true;
+  subscribed[`CIRK_ON_SET[${index},2]`] = true;
+});
+
+loop(2, (index) => {
+  subscribed[`KOM_TYDEN1_TUV[${index},1]`] = true;
+  subscribed[`KOM_TYDEN1_TUV[${index},2]`] = true;
+  subscribed[`KOM_TYDEN1_TUV[${index},3]`] = true;
+  subscribed[`KOM_TYDEN1_TUV[${index},4]`] = true;
+  subscribed[`KOM_TYDEN1_TUV[${index},5]`] = true;
+  subscribed[`KOM_TYDEN1_TUV[${index},6]`] = true;
+  subscribed[`KOM_TYDEN1_TUV[${index},7]`] = true;
+  subscribed[`KOM_ON_TUV[${index},1]`] = true;
+  subscribed[`KOM_ON_TUV[${index},2]`] = true;
+});
+
+loop(1, (index) => {
+  subscribed[`CIRK_TYDEN[${index},1]`] = true;
+  subscribed[`CIRK_TYDEN[${index},2]`] = true;
+  subscribed[`CIRK_TYDEN[${index},3]`] = true;
+  subscribed[`CIRK_TYDEN[${index},4]`] = true;
+  subscribed[`CIRK_TYDEN[${index},5]`] = true;
+  subscribed[`CIRK_TYDEN[${index},6]`] = true;
+  subscribed[`CIRK_TYDEN[${index},7]`] = true;
+  subscribed[`CIRK_ON_SET[${index},1]`] = true;
+  subscribed[`CIRK_ON_SET[${index},2]`] = true;
+});
+
+/**
+ * EKVITERM
+ */
+subscribed.C168 = true;
+subscribed.C169 = true;
+//loop(3, index => {
+//  subscribed[`C185_Z[${index}]`] = true;
+//});
+
+/**
+ * POOL
+ */
+subscribed.BAZ_VI = true;
+subscribed.FILTRACE = true;
+subscribed.C372 = true;
+subscribed.C373 = true;
+subscribed.C374 = true;
+subscribed.C375 = true;
+loop(3, (index) => {
+  subscribed[`FIL_TYDEN1[${index},1]`] = true;
+  subscribed[`FIL_TYDEN1[${index},2]`] = true;
+  subscribed[`FIL_TYDEN1[${index},3]`] = true;
+  subscribed[`FIL_TYDEN1[${index},4]`] = true;
+  subscribed[`FIL_TYDEN1[${index},5]`] = true;
+  subscribed[`FIL_TYDEN1[${index},6]`] = true;
+  subscribed[`FIL_TYDEN1[${index},7]`] = true;
+  subscribed[`FIL_TYDEN2[${index}]`] = true;
+  subscribed[`FIL_ON[${index},1]`] = true;
+  subscribed[`FIL_ON[${index},2]`] = true;
+});
+
+/**
+ * LIGHT
+ */
+subscribed.VID_OSVETLENI = true;
+subscribed.OS_1 = true;
+subscribed.OSVETLENI_DEN = true;
+subscribed.DOBEH_SVET = true;
+subscribed.OS_2_1 = true;
+subscribed.OS_3 = true;
+loop(3, (zone) => {
+  // LIGHTS
+  loop(18, (index) => {
+    subscribed[`SVETLO_V[${zone},${index}]`] = true;
+    subscribed[`SVETLO_NAZEV[${zone},${index}]`] = true;
+    subscribed[`SVETLO[${zone},${index}]`] = true;
+    subscribed[`SVETELNOST_V[${zone},${index}]`] = true;
+    subscribed[`SVETLO_TLAC[${zone},${index}]`] = true;
+    subscribed[`SVETELNOST[${zone},${index}]`] = true;
+    subscribed[`OSVETLENI_VZT[${zone},${index}]`] = true;
+    subscribed[`OSVETLENI_ALARM[${zone},${index}]`] = true;
+    subscribed[`OSVETLENI_DEN1[${zone},${index}]`] = true;
+    subscribed[`OSVETLENI_DOBEH[${zone},${index}]`] = true;
+    subscribed[`OS_P_MOD_IN[${zone},${index}]`] = true;
+    subscribed[`OSVETLENI_PIR[${zone},${index}]`] = true;
+    subscribed[`OSVETLENI_PK1[${zone},${index},1]`] = true;
+    subscribed[`OSVETLENI_PK1[${zone},${index},2]`] = true;
+    subscribed[`OSVETLENI_PK_HOD[${zone},${index},1]`] = true;
+    subscribed[`OSVETLENI_PK_HOD[${zone},${index},2]`] = true;
+  });
+});
+
+/**
+ * TEMPERATURE
+ */
+subscribed.VID_TOPENI = true;
+loop(3, (zone) => {
+  // ZONE PREFERENCES
+  subscribed[`KOMFORT_Z[${zone}]`] = true;
+  // ZONE COMFORT
+  loop(3, (index) => {
+    subscribed[`KOM_TYDEN1_Z[${zone},${index},1]`] = true;
+    subscribed[`KOM_TYDEN1_Z[${zone},${index},2]`] = true;
+    subscribed[`KOM_TYDEN1_Z[${zone},${index},3]`] = true;
+    subscribed[`KOM_TYDEN1_Z[${zone},${index},4]`] = true;
+    subscribed[`KOM_TYDEN1_Z[${zone},${index},5]`] = true;
+    subscribed[`KOM_TYDEN1_Z[${zone},${index},6]`] = true;
+    subscribed[`KOM_TYDEN1_Z[${zone},${index},7]`] = true;
+    subscribed[`KOM_TYDEN2_Z[${zone},${index}]`] = true;
+    subscribed[`KOM_ON_Z[${zone},${index},1]`] = true;
+    subscribed[`KOM_ON_Z[${zone},${index},2]`] = true;
+  });
+  // TEMPERATURES
+  loop(10, (index) => {
+    subscribed[`C1001V[${zone},${index}]`] = true;
+    subscribed[`C701_BOOL[${zone},${index}]`] = true;
+    subscribed[`C801[${zone},${index}]`] = true;
+    subscribed[`TOP_NAZEV[${zone},${index}]`] = true;
+    subscribed[`TEPLOTA_POZAD_KOM[${zone},${index}]`] = true;
+    subscribed[`TEPLOTA_POZAD_USP[${zone},${index}]`] = true;
+    subscribed[`C901[${zone},${index}]`] = true;
+  });
+});
+
+/**
+ * AIR CONDITION
+ */
+subscribed.VZT_VI = true;
+subscribed.VZT_POK = true;
+subscribed.VZT_BOOST = true;
+subscribed.BOOST_AKT = true;
+subscribed.OS_BOOST = true;
+subscribed.VZT_DOB = true;
+subscribed.C439 = true;
+subscribed.C440Z = true;
+subscribed.C440Z1 = true;
+subscribed.C474Z1 = true;
+subscribed.VZT_ZABEZ = true;
+loop(3, (i) => {
+  subscribed[`REK_AKT_T[${i}]`] = true;
+  subscribed[`REK_TYDEN1[${i},1]`] = true;
+  subscribed[`REK_TYDEN1[${i},2]`] = true;
+  subscribed[`REK_TYDEN1[${i},3]`] = true;
+  subscribed[`REK_TYDEN1[${i},4]`] = true;
+  subscribed[`REK_TYDEN1[${i},5]`] = true;
+  subscribed[`REK_TYDEN1[${i},6]`] = true;
+  subscribed[`REK_TYDEN1[${i},7]`] = true;
+  subscribed[`REK_ON[${i}]`] = true;
+  subscribed[`REK_OFF[${i}]`] = true;
+  subscribed[`VZT_CAS_ZOB[${i}]`] = true;
+});
+loop(10, (i) => {
+  subscribed[`VZT_NAZEV[${i}]`] = true;
+  subscribed[`C451_ON[${i}]`] = true;
+  subscribed[`C451_V[${i}]`] = true;
+  subscribed[`C451_V1[${i}]`] = true;
+  subscribed[`C450[${i}]`] = true;
+  subscribed[`C451[${i}]`] = true;
+  subscribed[`C452[${i}]`] = true;
+  subscribed[`C453[${i}]`] = true;
+  subscribed[`C453_V[${i}]`] = true;
+  subscribed[`C454[${i}]`] = true;
+});
+
+/**
+ * SECURITY
+ */
+subscribed.VID_EZS = true;
+subscribed.VID_EZS_2 = true;
+subscribed.VID_EZS_3 = true;
+
+/**
+ * BLINDS
+ */
+subscribed.VID_ZALUZIE = true;
+subscribed.ZAL_V = true;
+subscribed.MAX_V = true;
+loop(3, (zone) => {
+  // TEMPERATURES
+  loop(18, (index) => {
+    subscribed[`ZAL_V[${zone},${index}]`] = true;
+    subscribed[`ZAL_NAZEV[${zone},${index}]`] = true;
+    subscribed[`ZAL[${zone},${index}]`] = true;
+    subscribed[`ZAL_PLUS[${zone},${index}]`] = true;
+    subscribed[`ZAL_MINUS[${zone},${index}]`] = true;
+    subscribed[`ZAL_PLUS1[${zone},${index}]`] = true;
+    subscribed[`ZAL_MINUS1[${zone},${index}]`] = true;
+    subscribed[`ZAL_INFO_P_INT[${zone},${index}]`] = true;
+    subscribed[`ZAL_METEO[${zone},${index}]`] = true;
+    subscribed[`ZAL_ZAPAD[${zone},${index}]`] = true;
+    subscribed[`ZAL_SVETLO[${zone},${index}]`] = true;
+    subscribed[`ZAL_I[${zone},${index}]`] = true;
+    subscribed[`ZAL_PK1[${zone},${index},1]`] = true;
+    subscribed[`ZAL_PK1_POZ[${zone},${index},1]`] = true;
+    subscribed[`ZAL_PK1[${zone},${index},2]`] = true;
+    subscribed[`ZAL_PK1_POZ[${zone},${index},2]`] = true;
+  });
+});
+
+/**
+ * SMART
+ */
+// ECO
+subscribed.USPORNOST_SYS = true;
+subscribed.POC_US_PAM_ON = true;
+subscribed.VID_PROLUXUS = true;
+subscribed.SMART_SC_VID = true;
+subscribed.POC_US_PAM = true;
+subscribed.FVE_VYCHOD_KOR = true;
+subscribed.USP_DT_POC = true;
+subscribed.C1001_FVE = true;
+subscribed['C1001_FVE[1]'] = true;
+subscribed['C1001_FVE[2]'] = true;
+subscribed['C1001_FVE[3]'] = true;
+subscribed.C374_FVE = true;
+subscribed.C412 = true;
+subscribed.C253 = true;
+subscribed.C1065_2 = true;
+subscribed.C1065 = true;
+subscribed.WEATHER_INFO = true;
+subscribed.FVE_ON_TUV = true;
+subscribed.FVE_ON_AN = true;
+// BATTERY
+subscribed.BAT_USP = true;
+subscribed.BAT_USP_ON = true;
+loop(3, (index) => {
+  subscribed[`BAT_USP_TEP[${index}]`] = true;
+  subscribed[`C1001_FVE_BAT[${index}]`] = true;
+  subscribed[`C1001_FVE_USP[${index}]`] = true;
+  subscribed[`BAT_USP_SVET[${index}]`] = true;
+  subscribed[`SVET_FVE_BAT[${index}]`] = true;
+  subscribed[`SVET_FVE_USP[${index}]`] = true;
+  subscribed[`BAT_USP_ZAS[${index}]`] = true;
+  subscribed[`ZAS_FVE_BAT[${index}]`] = true;
+});
+subscribed.BAT_USP_TUV = true;
+subscribed.C222_FVE_BAT = true;
+subscribed.C222_FVE_USP = true;
+subscribed.BAT_USP_KOM = true;
+subscribed.KOM_FVE_BAT = true;
+// ACTIONS
+subscribed['SM_ON[1]'] = true;
+subscribed['SM_ON[2]'] = true;
+subscribed['SM_ON[3]'] = true;
+loop(3, (action) => {
+  subscribed[`SM_1[${action}]`] = true;
+  loop(7, (index) => {
+    subscribed[`SMART_DEN[${action},${index}]`] = true;
+  });
+});
+subscribed['SM_11[3]'] = true;
+subscribed['SMART[3]'] = true;
+
+/**
+ * PREFERENCES
+ */
+subscribed.VYCHOD_KOR = true;
+subscribed.ZAPAD_KOR = true;
+subscribed.KOR_VYCHOD = true;
+subscribed.KOR_ZAPAD = true;
+
+/**
+ * PLUGS
+ */
+subscribed.VID_ZASUVKY = true;
+subscribed.ZA_ALL_ON = true;
+subscribed.ZA_ALL_OFF = true;
+
+
+
+/**
+ * WEATHER STATION
+ */
+subscribed.METEO = true;
+
+subscribed['GIOM3000_DATA.WINDCHILL'] = true;
+subscribed['GIOM3000_DATA.RELHUMIDITY'] = true;
+subscribed['GIOM3000_DATA.DEWPOINT'] = true;
+subscribed['GIOM3000_DATA.ABSOLUTEPRESSURE'] = true;
+subscribed['GIOM3000_DATA.WINDAVG'] = true;
+subscribed['GIOM3000_DATA.WINDGUST'] = true;
+subscribed['GIOM3000_DATA.WINDSPEED'] = true;
+subscribed['GIOM3000_DATA.WINDIRDEG'] = true;
+
+/**
+ * STATISTICS
+ */
+subscribed.STAT_CITY = true;
+
+subscribed.API_INVERTER_POWER = true;
+subscribed.API_INVERTER_TOTAL = true;
+subscribed.API_BATTERY_SOC = true;
+subscribed.API_BATTERY_POWER = true;
+subscribed.API_BATTERY_TOTAL = true;
+subscribed.API_METER_POWER = true;
+subscribed.API_METER_OVERFLOW = true;
+subscribed.API_METER_PURCHASE = true;
+subscribed.API_SOLARPORTAL_ON = true;
+
+subscribed['STAT_DUM.N_D.A'] = true;
+subscribed['STAT_DUM.P_D.A'] = true;
+subscribed['STAT_DUM.N_S.A'] = true;
+subscribed['STAT_DUM.P_S.A'] = true;
+subscribed['STAT_DUM.FVE.A'] = true;
+subscribed['STAT_DUM.V.A'] = true;
+
+subscribed['STAT_DUM.N_D.D'] = true;
+subscribed['STAT_DUM.P_D.D'] = true;
+subscribed['STAT_DUM.N_S.D'] = true;
+subscribed['STAT_DUM.P_S.D'] = true;
+subscribed['STAT_DUM.FVE.D'] = true;
+subscribed['STAT_DUM.V.D'] = true;
+
+subscribed['STAT_DUM.N_D.M'] = true;
+subscribed['STAT_DUM.P_D.M'] = true;
+subscribed['STAT_DUM.N_S.M'] = true;
+subscribed['STAT_DUM.P_S.M'] = true;
+subscribed['STAT_DUM.FVE.M'] = true;
+subscribed['STAT_DUM.V.M'] = true;
+
+subscribed['STAT_DUM.N_D.R'] = true;
+subscribed['STAT_DUM.P_D.R'] = true;
+subscribed['STAT_DUM.N_S.R'] = true;
+subscribed['STAT_DUM.P_S.R'] = true;
+subscribed['STAT_DUM.FVE.R'] = true;
+subscribed['STAT_DUM.V.R'] = true;
+
+subscribed['STAT_DUM.N_D.C'] = true;
+subscribed['STAT_DUM.P_D.C'] = true;
+subscribed['STAT_DUM.N_S.C'] = true;
+subscribed['STAT_DUM.P_S.C'] = true;
+subscribed['STAT_DUM.FVE.C'] = true;
+subscribed['STAT_DUM.V.C'] = true;
+
+loop(5, (index) => {
+  subscribed[`C13[${index}]`] = true;
+  subscribed[`C12[${index}]`] = true;
+  subscribed[`C15[${index}]`] = true;
+  subscribed[`C6[${index}]`] = true;
+  subscribed[`C2[${index}]`] = true;
+  subscribed[`C5[${index}]`] = true;
+});
+
+loop(4, (index) => {
+  subscribed[`C16[${index}]`] = true;
+});
+
+loop(3, (index) => {
+  subscribed[`C80_SZ[${index}]`] = true;
+  subscribed[`EL_CELK_AKT[${index}]`] = true;
+  subscribed[`VYKON[${index}]`] = true;
+  subscribed[`COP[${index}]`] = true;
+});
+subscribed['WB_ON'] = true;
+subscribed['CAR_R'] = true;
+subscribed['WB_SPOT_CELK[1]'] = true;
+subscribed['WB_SPOT_CELK[2]'] = true;
+subscribed['WB_MOD_STRING'] = true;
+subscribed['WB_C_CAR_BAT'] = true;
+subscribed['WB_TIME_TO_READY_TIME'] = true;
+subscribed['WB_TIME_TO_READY_V'] = true;
+subscribed['WB_TIME_PER'] = true;
+subscribed['VZT_CAR'] = true;
+loop(4, (z) => {
+  subscribed[`W_USER_MOD[${z}]`] = true;
+});
+loop(3, (z) => {
+  loop(7, (i) => {
+    subscribed[`WB_PLAN_TYDEN[${z},${i}]`] = true;
+  });
+  subscribed[`WB_TIME_TO_STOP_V[${z}]`] = true;
+  subscribed[`WB_TIME_TO_STOP[${z}]`] = true;
+  subscribed[`WB_PLAN_HOD[${z}]`] = true;
+  subscribed[`WB_PLAN_HOD_OP[${z}]`] = true;
+  subscribed[`WB_TIME_TO_STOP_TIME[${z}]`] = true;
+});
+
+/**
+ * INFORM
+ */
+subscribed.INFO_CHYBA_APP = true;
+subscribed.HELP_TOP = true;
+subscribed.HELP_TUV = true;
+subscribed.TEPLOTY_VID = true;
+subscribed.C102_V = true;
+
+// weather
+subscribed['WEATHERDATA.TEMPERATURE'] = true;
+subscribed['WEATHERDATA.CONDCODEYR'] = true;
+subscribed['WEATHERDATA.CONDITION'] = true;
+subscribed['WEATHERDATA.FORECAST[1].LOWTEMP'] = true;
+subscribed['WEATHERDATA.FORECAST[1].HITEMP'] = true;
+subscribed['WEATHERDATA.FORECAST[1].CONDCODEYR'] = true;
+subscribed['WEATHERDATA.FORECAST[1].CONDITION'] = true;
+subscribed['WEATHERDATA.DATETIME'] = true;
+
+// region
+subscribed['KRAJ_CR[2]'] = true;
+subscribed['KRAJ_CR[3]'] = true;
+subscribed['KRAJ_CR[4]'] = true;
+subscribed['KRAJ_CR[5]'] = true;
+subscribed['KRAJ_CR[6]'] = true;
+subscribed['KRAJ_CR[7]'] = true;
+subscribed['KRAJ_CR[8]'] = true;
+subscribed['KRAJ_CR[9]'] = true;
+subscribed['KRAJ_CR[10]'] = true;
+subscribed['KRAJ_CR[11]'] = true;
+subscribed['KRAJ_CR[12]'] = true;
+subscribed['KRAJ_CR[13]'] = true;
+subscribed['KRAJ_CR[14]'] = true;
+
+module.exports = subscribed;
