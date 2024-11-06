@@ -9,6 +9,20 @@ const loop = (iterationCount, callback, options = { indexBegin: 1 }) => {
   }
 };
 
+const subscribed = {
+  /**
+   * CORRUPTED DATA
+   */
+  DATA_OK: true,
+  RQLOAD: true,
+
+  /**
+   * INITIAL WIZARD
+   */
+  PRVNI_NASTAVENI: true,
+  REG_ZAKAZNIK: true,
+  CHLAZ: true,
+  C102_V: true,
   C330: true,
   BAZ_VI: true,
   C201_V1: true,
